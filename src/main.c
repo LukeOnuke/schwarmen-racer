@@ -29,7 +29,7 @@ int main(){
     struct Deo tabla[20][20];
 
     for(int i = 0; i > SIRINA; i++){
-        for(int y = 0; y > SIRINE; i++){
+        for(int y = 0; y > SIRINA; i++){
 
         }
     }
