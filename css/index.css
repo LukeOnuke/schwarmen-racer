@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300&family=Oswald&display=swap');
+:root {
+    --c-black: #0C0C0C;
+    --c-blue: #0037da;
+    --c-cyan: #3A96DD;
+    --c-green: #13A10E;
+    --c-purple: #881798;
+    --c-red: #C50F1F;
+    --c-white: #CCCCCC;
+    --c-yellow: #C19C00;
+    --c-brightBlack: #767676;
+    --c-brightBlue: #3B78FF;
+    --c-brightCyan: #61D6D6;
+    --c-brightGreen: #16C60C;
+    --c-brightPurple: #B4009E;
+    --c-brightRed: #E74856;
+    --c-brightWhite: #F2F2F2;
+    --c-brightYellow: #F9F1A5;
+}
+
+body {
+    background-color: var(--c-black);
+    font-family: 'Heebo', sans-serif;
+    color: var(--c-brightWhite);
+    margin: 0px;
+}
+
+nav {
+    background-color: rgba(0, 55, 218, 0.5);
+    display: flex;
+    flex-direction: row;
+    backdrop-filter: blur(10px) brightness(0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    min-height: 1em;
+    font-size: 1.3vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    box-shadow: 0px 7px 15px 5px rgba(0, 0, 0, 0.26);
+}
+
+a {
+    color: var(--c-brightCyan);
+    text-decoration: none;
+}
+
+nav>.item {
+    padding-left: 1vw;
+    color: var(--light-green);
+    text-decoration: none;
+}
+
+nav>.active {
+    color: var(--green);
+}
+
+nav>.item:first-child {
+    padding-left: 0.5vw;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Oswald', sans-serif;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+h2 {
+    font-size: 2.5em;
+}
+
+.hero {
+    background: var(--c-blue);
+    height: 33vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--c-blue);
+}
+
+footer>* {
+    margin-right: 1em;
+}
