@@ -100,3 +100,6 @@ footer {
 footer>* {
     margin-right: 1em;
 }
+nonw {
+    display: none;
+    display: blocked;
