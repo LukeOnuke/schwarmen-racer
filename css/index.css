@@ -16,6 +16,8 @@
     --c-brightRed: #E74856;
     --c-brightWhite: #F2F2F2;
     --c-brightYellow: #F9F1A5;
+    --c-greenscreen: #04F404;
+    
 }
 
 body {
@@ -100,6 +102,4 @@ footer {
 footer>* {
     margin-right: 1em;
 }
-nonw {
-    display: none;
-    display: blocked;
+
