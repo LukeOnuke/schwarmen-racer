@@ -3,7 +3,7 @@ const spedometer = document.getElementById("speedometer");
 const scoreMeter = document.getElementById("score");
 
 let velocity = 0.6;
-const maxVel = 1.20;
+const maxVel = 2.0;
 const minVel = 0.95;
 const horisontalV = 0.40;
 const keyPressed = [];
@@ -66,7 +66,7 @@ let intervalId = window.setInterval(function() {
         let isAbovePlayfield;
         if (listOfElements != undefined) {
             for (element of listOfElements) {
-                isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.95 - element.clientHeight;
+                isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.90 - element.clientHeight;
                 if (!isAbovePlayfield) {
                     setPos(element, getRand(0, 500), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
                 }
@@ -80,7 +80,7 @@ let intervalId = window.setInterval(function() {
             }
         }
 
-        addScore(velocity / deltaT);
+        addScore((velocity ^ 2) / deltaT);
     }
     deltaT = Date.now();
 }, 32);
