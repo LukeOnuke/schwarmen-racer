@@ -62,6 +62,10 @@ nav>.item:first-child {
     padding-left: 0.5vw;
 }
 
+nav>.item {
+    padding-left: 0.7vw;
+}
+
 h1,
 h2,
 h3 {

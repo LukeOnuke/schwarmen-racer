@@ -1,5 +1,6 @@
 const gamefield = document.getElementById("gamefield");
 const spedometer = document.getElementById("speedometer");
+const scoreMeter = document.getElementById("score");
 
 let velocity = 0.6;
 const maxVel = 1.20;
@@ -8,6 +9,7 @@ const horisontalV = 0.40;
 const keyPressed = [];
 
 let dead = false;
+let score = 0;
 
 let zIndex = 100;
 
@@ -78,6 +80,7 @@ let intervalId = window.setInterval(function() {
             }
         }
 
+        addScore(velocity / deltaT);
     }
     deltaT = Date.now();
 }, 32);
@@ -140,4 +143,9 @@ async function removeObj(object) {
 
 function getActualY(obj) {
     return obj.getBoundingClientRect().y;
+}
+
+function addScore(sc) {
+    score += sc;
+    scoreMeter.textContent = parseInt(score);
 }
