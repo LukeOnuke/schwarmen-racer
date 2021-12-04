@@ -17,7 +17,6 @@
     --c-brightWhite: #F2F2F2;
     --c-brightYellow: #F9F1A5;
     --c-greenscreen: #04F404;
-    
 }
 
 body {
@@ -35,6 +34,7 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 300;
     width: 100vw;
     min-height: 1em;
     font-size: 1.3vw;
@@ -103,3 +103,55 @@ footer>* {
     margin-right: 1em;
 }
 
+.flexbox {
+    display: flex;
+}
+
+.fl-row {
+    flex-direction: row;
+}
+
+.fl-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.screen-size {
+    width: 100vw;
+    height: 100vh;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+#gamefield {
+    width: 700px;
+    max-height: 100vh;
+    background-color: var(--c-brightBlack);
+}
+
+.object {
+    width: 50px;
+    height: 100px;
+    max-height: 110px;
+    max-width: 50px;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.moving {
+    margin: 2px !important;
+}
+
+.car {
+    background-image: url("/img/car.png");
+    background-size: contain;
+    image-rendering: pixelated;
+}
+
+.enemy-car {
+    background-image: url("/img/car-enemy.png");
+    background-size: contain;
+    image-rendering: pixelated;
+}
