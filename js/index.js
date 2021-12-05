@@ -20,7 +20,7 @@ gamefield.appendChild(car);
 
 // Kao main, koristi IIFE.
 (function() {
-    setPos(car, 0, gamefield.clientHeight / 2);
+    setPos(car, gamefield.clientWidth * 0.5, gamefield.clientHeight * 0.3);
     for (i = 0; i < 7; i++) {
         addEnemyCar();
     }
