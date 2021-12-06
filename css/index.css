@@ -155,7 +155,7 @@ footer>* {
 }
 
 .enemy-car {
-    background-image: url("/img/volkswagen-golf-mk5-car-volkswagen-gti-png-favpng-CyXqj3k4NjHYVGDnSLBhsFGyR.png");
+    background-image: url("/img/car-enemy.png");
     background-size: contain;
     image-rendering: pixelated;
 }
@@ -165,5 +165,5 @@ footer>* {
     background-image: url("/img/trava.png");
     image-rendering: pixelated;
     background-repeat: repeat;
-
+    background-size: 50px;
 }
