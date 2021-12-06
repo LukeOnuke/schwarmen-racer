@@ -80,6 +80,8 @@ let intervalId = window.setInterval(function() {
             }
         }
 
+        if(!isColliding(car, gamefield)) dead = true;
+
         addScore((velocity ^ 2) / deltaT);
     }
     deltaT = Date.now();
