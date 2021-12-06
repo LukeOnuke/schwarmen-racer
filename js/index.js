@@ -80,7 +80,7 @@ let intervalId = window.setInterval(function() {
             }
         }
 
-        if(!isColliding(car, gamefield)) dead = true;
+        if(!isInside()) dead = true;
 
         addScore((velocity ^ 2) / deltaT);
     }
@@ -150,4 +150,11 @@ function getActualY(obj) {
 function addScore(sc) {
     score += sc;
     scoreMeter.textContent = parseInt(score);
+}
+
+function isInside(){
+    const rect1 = car.getBoundingClientRect();
+    const rect2 = gamefield.getBoundingClientRect();
+
+    return (rect1.left < rect2.left && rect2.left < rect1.left + rect1.width || rect2.left < rect1.left && rect1.left < rect2.left + rect2.width); //width
 }
