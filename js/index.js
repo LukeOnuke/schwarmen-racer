@@ -56,10 +56,6 @@ let intervalId = window.setInterval(function() {
             setPos(car, getX(car) + horisontalV * deltaT, getY(car));
         }
 
-        if (keyPressed["p"]) {
-            addEnemyCar();
-        }
-
         accelerate(-(2e-5) * deltaT);
 
         listOfElements = document.getElementsByClassName("moving");
@@ -68,7 +64,7 @@ let intervalId = window.setInterval(function() {
             for (element of listOfElements) {
                 isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.90 - element.clientHeight;
                 if (!isAbovePlayfield) {
-                    if(isCar(element) && getRand(0, 100) < 5){
+                    if(isCar(element) && getRand(0, 100) < 7){
                         setPos(element, getX(car), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));   
                     }else{
                         setPos(element, getRand(0, 500), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
@@ -77,7 +73,7 @@ let intervalId = window.setInterval(function() {
                 if (isAbovePlayfield) {
                     setPos(element, getX(element), getY(element) - velocity * deltaT);
                 }
-                if (isColliding(car, element)) {
+                if (isColliding(car, element, 7, 10)) {
                     dead = true;
                     return;
                 }
@@ -119,8 +115,22 @@ function accelerate(deltaV) {
     spedometer.textContent = parseInt(velocity * 100);
 }
 
-function isColliding(obj, obj2) {
+function isColliding(obj, obj2,overrideX ,overrideY) {
+    if(overrideY == undefined){
+        overrideY = 0;
+    }
+
+    if(overrideX == undefined){
+        overrideX = 0;
+    }
+
     const rect1 = obj.getBoundingClientRect();
+
+    rect1.left += overrideX;
+    rect1.width -= overrideX;
+    rect1.height -= overrideY;
+    rect1.top += overrideY;
+
     const rect2 = obj2.getBoundingClientRect();
     //return rect1.x > rect2.x && rect1.x < rect2.x + rect2.width && rect1.y > rect2.y && rect1.y < rect2.y + rect2.height;
     return (rect1.top > rect2.top && rect2.top > rect1.top - rect1.height || rect2.top > rect1.top && rect1.top > rect2.top - rect2.height) && //height
