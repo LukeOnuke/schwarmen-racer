@@ -136,7 +136,10 @@ function addEnemyCar() {
 }
 
 function getRand(min, max) {
-    return Math.random() * (max - min) + min;
+    let arr = new Uint32Array(1);
+    crypto.getRandomValues(arr);
+    
+    return arr[0] * (max - min) + min;
 }
 
 async function removeObj(object) {
