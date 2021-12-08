@@ -21,7 +21,7 @@ gamefield.appendChild(car);
 // Kao main, koristi IIFE.
 (function() {
     setPos(car, gamefield.clientWidth * 0.5, gamefield.clientHeight * 0.3);
-    gamefield.style.backgroundPositionY = "0px";
+    gamefield.style.backgroundPosition = "top 0px";
     for (i = 0; i < 7; i++) {
         addEnemyCar();
     }
@@ -81,7 +81,7 @@ let intervalId = window.setInterval(function() {
             }
         }
 
-        gamefield.style.backgroundPositionY = (parseFloat(gamefield.style.backgroundPositionY) +  + velocity * deltaT) + "px";
+        gamefield.style.backgroundPosition = "top" (parseFloat(gamefield.style.backgroundPositionY) +  + velocity * deltaT) + "px";
 
         if(!isInside()) dead = true;
 
