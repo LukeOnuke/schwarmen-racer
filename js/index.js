@@ -139,7 +139,7 @@ function getRand(min, max) {
     let arr = new Uint32Array(1);
     crypto.getRandomValues(arr);
     
-    return arr[0] * (max - min) + min;
+    return Math.floor(arr[0] * (max - min + 1) + min);
 }
 
 async function removeObj(object) {
