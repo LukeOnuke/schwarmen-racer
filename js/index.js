@@ -21,7 +21,6 @@ gamefield.appendChild(car);
 // Kao main, koristi IIFE.
 (function() {
     setPos(car, gamefield.clientWidth * 0.5, gamefield.clientHeight * 0.3);
-    gamefield.style.backgroundPosition = "top 0px";
     for (i = 0; i < 7; i++) {
         addEnemyCar();
     }
@@ -39,6 +38,7 @@ document.onkeyup = function(click) {
 let deltaT = 0;
 let listOfElements;
 let intervalId = window.setInterval(function() {
+    if (deltaT == 0) { deltaT = Date.now() - 1 }
     deltaT -= Date.now();
     deltaT = Math.abs(deltaT);
     if (dead) {
@@ -65,9 +65,9 @@ let intervalId = window.setInterval(function() {
             for (element of listOfElements) {
                 isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.90 - element.clientHeight;
                 if (!isAbovePlayfield) {
-                    if(isCar(element) && getRand(0, 100) < 7){
-                        setPos(element, getX(car), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));   
-                    }else{
+                    if (isCar(element) && getRand(0, 100) < 7) {
+                        setPos(element, getX(car), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
+                    } else {
                         setPos(element, getRand(0, 500), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
                     }
                 }
@@ -81,9 +81,9 @@ let intervalId = window.setInterval(function() {
             }
         }
 
-        gamefield.style.backgroundPosition = "top" (parseFloat(gamefield.style.backgroundPositionY) +  + velocity * deltaT) + "px";
+        scrollTextures(velocity * deltaT);
 
-        if(!isInside()) dead = true;
+        if (!isInside()) dead = true;
 
         addScore((velocity ^ 2) / deltaT);
     }
@@ -118,20 +118,18 @@ function accelerate(deltaV) {
     spedometer.textContent = parseInt(velocity * 100);
 }
 
-function isColliding(obj, obj2,overrideX ,overrideY) {
-    if(overrideY == undefined){
+function isColliding(obj, obj2, overrideX, overrideY) {
+    if (overrideY == undefined) {
         overrideY = 0;
     }
 
-    if(overrideX == undefined){
+    if (overrideX == undefined) {
         overrideX = 0;
     }
 
     const rect1 = obj.getBoundingClientRect();
 
-    console.log(rect1.left);
     rect1.left += overrideX;
-    console.log(rect1.left);
     rect1.width -= overrideX;
     rect1.height -= overrideY;
     rect1.top += overrideY;
@@ -157,7 +155,7 @@ function addEnemyCar() {
 function getRand(min, max) {
     let arr = new Uint32Array(1);
     crypto.getRandomValues(arr);
-    
+
     return Math.abs(arr[0]) % (max + 1) + min;
 }
 
@@ -174,13 +172,26 @@ function addScore(sc) {
     scoreMeter.textContent = parseInt(score);
 }
 
-function isInside(){
+function isInside() {
     const rect1 = car.getBoundingClientRect();
     const rect2 = gamefield.getBoundingClientRect();
 
     return (rect1.left < rect2.left && rect2.left < rect1.left + rect1.width || rect2.left < rect1.left && rect1.left < rect2.left + rect2.width); //width
 }
 
-function isCar(element){
+function isCar(element) {
     return element.classList.contains("enemy-car") || element.classList.contains("car");
+}
+
+let scroll = 0.0;
+
+/**Scroll-uje objekte sa klasom `scrollable` */
+function scrollTextures(delta) {
+    if (scroll > gamefield.clientHeight * 10) {
+        scroll = 0;
+    }
+    scroll += delta;
+    for (element of document.getElementsByClassName("scrollable")) {
+        element.style.backgroundPositionY = scroll + "px";
+    }
 }
