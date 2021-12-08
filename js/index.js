@@ -73,7 +73,7 @@ let intervalId = window.setInterval(function() {
                 if (isAbovePlayfield) {
                     setPos(element, getX(element), getY(element) - velocity * deltaT);
                 }
-                if (isColliding(car, element, 7, 10)) {
+                if (isColliding(car, element, 10, 25)) {
                     dead = true;
                     return;
                 }
@@ -126,7 +126,9 @@ function isColliding(obj, obj2,overrideX ,overrideY) {
 
     const rect1 = obj.getBoundingClientRect();
 
+    console.log(rect1.left);
     rect1.left += overrideX;
+    console.log(rect1.left);
     rect1.width -= overrideX;
     rect1.height -= overrideY;
     rect1.top += overrideY;
