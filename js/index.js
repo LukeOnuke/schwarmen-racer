@@ -68,7 +68,11 @@ let intervalId = window.setInterval(function() {
             for (element of listOfElements) {
                 isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.90 - element.clientHeight;
                 if (!isAbovePlayfield) {
-                    setPos(element, getRand(0, 500), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
+                    if(isCar(element) && getRand(0, 100) < 5){
+                        setPos(element, getX(car), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));   
+                    }else{
+                        setPos(element, getRand(0, 500), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
+                    }
                 }
                 if (isAbovePlayfield) {
                     setPos(element, getX(element), getY(element) - velocity * deltaT);
@@ -139,7 +143,7 @@ function getRand(min, max) {
     let arr = new Uint32Array(1);
     crypto.getRandomValues(arr);
     
-    return Math.abs(arr[0]) % max + min;
+    return Math.abs(arr[0]) % (max + 1) + min;
 }
 
 async function removeObj(object) {
@@ -160,4 +164,8 @@ function isInside(){
     const rect2 = gamefield.getBoundingClientRect();
 
     return (rect1.left < rect2.left && rect2.left < rect1.left + rect1.width || rect2.left < rect1.left && rect1.left < rect2.left + rect2.width); //width
+}
+
+function isCar(element){
+    return element.classList.contains("enemy-car") || element.classList.contains("car");
 }
