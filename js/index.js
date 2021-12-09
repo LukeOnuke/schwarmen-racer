@@ -10,6 +10,7 @@ const keyPressed = [];
 
 let dead = false;
 let score = 0;
+const timeStarted = Date.now();
 
 let zIndex = 100;
 
@@ -37,6 +38,7 @@ document.onkeyup = function(click) {
 // Game loop (Petlja igre)
 let deltaT = 0;
 let listOfElements;
+
 let intervalId = window.setInterval(function() {
     if (deltaT == 0) { deltaT = Date.now() - 1 }
     deltaT -= Date.now();
@@ -65,7 +67,11 @@ let intervalId = window.setInterval(function() {
             for (element of listOfElements) {
                 isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.90 - element.clientHeight;
                 if (!isAbovePlayfield) {
-                    if (isCar(element) && getRand(0, 100) < 7) {
+                    if (isCar(element)) {
+                        setRandomType(element);
+                    }
+
+                    if (getRand(0, 100) < 7 && isCar(element)) {
                         setPos(element, getX(car), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
                     } else {
                         setPos(element, getRand(0, 500), getRand(2 * gamefield.clientHeight, 2.1 * gamefield.clientHeight));
@@ -74,10 +80,17 @@ let intervalId = window.setInterval(function() {
                 if (isAbovePlayfield) {
                     setPos(element, getX(element), getY(element) - velocity * deltaT);
                 }
-                if (isColliding(car, element, 10, 25)) {
-                    dead = true;
-                    return;
+                if (Date.now() - timeStarted < 2500) {
+                    car.style.opacity = 0.5;
+
+                } else {
+                    car.style.opacity = 1;
+                    if (isColliding(car, element, 7, 12)) {
+                        dead = true;
+                        return;
+                    }
                 }
+
             }
         }
 
@@ -127,12 +140,19 @@ function isColliding(obj, obj2, overrideX, overrideY) {
         overrideX = 0;
     }
 
-    const rect1 = obj.getBoundingClientRect();
-
-    rect1.left += overrideX;
+    let rect1 = obj.getBoundingClientRect();
+    console.log(rect1);
+    rect1 = {
+        left: rect1.left + overrideX,
+        width: rect1.width - (overrideX * 2),
+        height: rect1.height - (overrideY * 2),
+        top: rect1.top + overrideY
+    };
+    console.log(rect1);
+    /*rect1.left += overrideX;
     rect1.width -= overrideX;
     rect1.height -= overrideY;
-    rect1.top += overrideY;
+    rect1.top += overrideY;*/
 
     const rect2 = obj2.getBoundingClientRect();
     //return rect1.x > rect2.x && rect1.x < rect2.x + rect2.width && rect1.y > rect2.y && rect1.y < rect2.y + rect2.height;
@@ -146,10 +166,8 @@ function addEnemyCar() {
     let enemyCar = document.createElement("div");
     enemyCar.classList.add("object", "enemy-car", "moving");
     gamefield.appendChild(enemyCar);
-    setPos(enemyCar, getRand(0, 500), -2 * gamefield.clientHeight);
+    setPos(enemyCar, getRand(0, 500), getRand(gamefield.clientHeight * 1.5, gamefield.clientHeight * 2));
     enemyCar.style.zIndex = zIndex;
-    enemyCar.style.top = "0px";
-    console.log(enemyCar.getBoundingClientRect())
 }
 
 function getRand(min, max) {
@@ -194,4 +212,8 @@ function scrollTextures(delta) {
     for (element of document.getElementsByClassName("scrollable")) {
         element.style.backgroundPositionY = scroll + "px";
     }
+}
+
+async function setRandomType(car) {
+    car.style.backgroundImage = "url(/img/car" + getRand(0, 5) + ".png)";
 }

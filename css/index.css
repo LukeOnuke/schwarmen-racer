@@ -159,13 +159,12 @@ footer>* {
 }
 
 .enemy-car {
-    background-image: url("/img/car-enemy.png");
+    background-image: url("/img/car0.png");
     background-size: contain;
     image-rendering: pixelated;
 }
 
 .trava {
-
     background-image: url("/img/trava.png");
     image-rendering: pixelated;
     background-repeat: repeat;
