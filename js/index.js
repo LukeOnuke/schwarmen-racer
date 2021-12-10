@@ -1,6 +1,11 @@
+import playSound from "/js/lib.js";
+
 const gamefield = document.getElementById("gamefield");
 const spedometer = document.getElementById("speedometer");
 const scoreMeter = document.getElementById("score");
+
+let context = new(window.AudioContext || window.webkitAudioContext)();
+let osc = context.createOscillator(); // instantiate an oscillator
 
 let velocity = 0.6;
 const maxVel = 2.0;
@@ -16,16 +21,32 @@ let zIndex = 100;
 
 const car = document.createElement("div");
 car.classList.add("object", "car");
+car.style.opacity = 0.5;
 gamefield.appendChild(car);
 
 
 // Kao main, koristi IIFE.
 (function() {
+    var vol = context.createGain();
+    vol.gain.value = 0.1;
+
+    var distortion = context.createWaveShaper();
+    distortion.curve = makeDistortionCurve(400);
+
+    osc.type = 'sawtooth'; // this is the default - also square, sawtooth, triangle
+    osc.frequency.value = 45; // Hz
+    osc.connect(vol); // connect it to the destination
+    vol.connect(distortion);
+    distortion.connect(context.destination);
+    osc.start(); // start the oscillator
+    //osc.stop(); // stop 2 seconds after the current time
+
     setPos(car, gamefield.clientWidth * 0.5, gamefield.clientHeight * 0.3);
-    for (i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         addEnemyCar();
     }
 })();
+
 
 document.onkeydown = function(click) {
     keyPressed[click.key] = true;
@@ -64,7 +85,7 @@ let intervalId = window.setInterval(function() {
         listOfElements = document.getElementsByClassName("moving");
         let isAbovePlayfield;
         if (listOfElements != undefined) {
-            for (element of listOfElements) {
+            for (let element of listOfElements) {
                 isAbovePlayfield = Math.abs(getActualY(element)) < gamefield.clientHeight * 0.90 - element.clientHeight;
                 if (!isAbovePlayfield) {
                     if (isCar(element)) {
@@ -81,12 +102,14 @@ let intervalId = window.setInterval(function() {
                     setPos(element, getX(element), getY(element) - velocity * deltaT);
                 }
                 if (Date.now() - timeStarted < 2500) {
-                    car.style.opacity = 0.5;
+                    setCarTrasparrent(0.5);
 
                 } else {
-                    car.style.opacity = 1;
+                    setCarTrasparrent(1);
                     if (isColliding(car, element, 7, 12)) {
                         dead = true;
+                        playSound("/sound/crash.wav");
+                        osc.stop();
                         return;
                     }
                 }
@@ -129,6 +152,7 @@ function clampVel(vel) {
 function accelerate(deltaV) {
     velocity = clampVel(velocity + deltaV);
     spedometer.textContent = parseInt(velocity * 100);
+    osc.frequency.value = velocity * 100 / 2;
 }
 
 function isColliding(obj, obj2, overrideX, overrideY) {
@@ -141,14 +165,12 @@ function isColliding(obj, obj2, overrideX, overrideY) {
     }
 
     let rect1 = obj.getBoundingClientRect();
-    console.log(rect1);
     rect1 = {
         left: rect1.left + overrideX,
         width: rect1.width - (overrideX * 2),
         height: rect1.height - (overrideY * 2),
         top: rect1.top + overrideY
     };
-    console.log(rect1);
     /*rect1.left += overrideX;
     rect1.width -= overrideX;
     rect1.height -= overrideY;
@@ -209,11 +231,34 @@ function scrollTextures(delta) {
         scroll = 0;
     }
     scroll += delta;
-    for (element of document.getElementsByClassName("scrollable")) {
+    for (let element of document.getElementsByClassName("scrollable")) {
         element.style.backgroundPositionY = scroll + "px";
     }
 }
 
 async function setRandomType(car) {
     car.style.backgroundImage = "url(/img/car" + getRand(0, 5) + ".png)";
+}
+
+async function setCarTrasparrent(newVal) {
+    let oldVal = car.style.opacity;
+    if (newVal == oldVal) {
+        return;
+    }
+    playSound("/sound/synth.wav");
+    car.style.opacity = newVal;
+}
+
+function makeDistortionCurve(amount) {
+    var k = typeof amount === 'number' ? amount : 50,
+        n_samples = 44100,
+        curve = new Float32Array(n_samples),
+        deg = Math.PI / 180,
+        i = 0,
+        x;
+    for (; i < n_samples; ++i) {
+        x = i * 2 / n_samples - 1;
+        curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+    }
+    return curve;
 }

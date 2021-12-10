@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300&family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300&family=Oswald&family=Press+Start+2P&display=swap');
 :root {
     --c-black: #0C0C0C;
     --c-blue: #0037da;
@@ -120,6 +120,10 @@ footer>* {
     justify-content: center;
 }
 
+.fl-right {
+    justify-content: right;
+}
+
 .screen-size {
     width: 100vw;
     height: 100vh;
@@ -153,7 +157,7 @@ footer>* {
 }
 
 .car {
-    background-image: url("/img/car5.png");
+    background-image: url("/img/car.png");
     background-size: contain;
     image-rendering: pixelated;
 }
@@ -169,4 +173,46 @@ footer>* {
     image-rendering: pixelated;
     background-repeat: repeat;
     background-size: 50px;
+}
+
+.font-override-ps {
+    font-family: 'Press Start 2P', cursive !important;
+}
+
+.blink {
+    animation: blinker 1s infinite;
+}
+
+@keyframes blinker {
+    from {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1.0;
+    }
+}
+
+.ml1 {
+    margin-right: 1em;
+}
+
+.autoadjust-title {
+    font-size: 2vw;
+}
+
+.main-menu-bg {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), url("/img/main-menu.png");
+    background-size: cover;
+    image-rendering: pixelated;
+}
+
+.foreground-color-black {
+    color: var(--c-black);
+}
+
+.highlight {
+    color: var(--c-brightRed);
 }
