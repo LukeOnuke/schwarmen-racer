@@ -16,6 +16,7 @@ const keyPressed = [];
 let dead = false;
 let score = 0;
 const timeStarted = Date.now();
+let oscilatorStarted = true;
 
 let zIndex = 100;
 
@@ -38,7 +39,12 @@ gamefield.appendChild(car);
     osc.connect(vol); // connect it to the destination
     vol.connect(distortion);
     distortion.connect(context.destination);
-    osc.start(); // start the oscillator
+    try {
+        osc.start(); // start the oscillator
+    } catch (error) {
+        oscilatorStarted = false;
+    }
+
     //osc.stop(); // stop 2 seconds after the current time
 
     setPos(car, gamefield.clientWidth * 0.5, gamefield.clientHeight * 0.3);
@@ -50,6 +56,14 @@ gamefield.appendChild(car);
 
 document.onkeydown = function(click) {
     keyPressed[click.key] = true;
+    if (!oscilatorStarted) {
+        try {
+            osc.start();
+            oscilatorStarted = true;
+        } catch (error) {
+
+        }
+    }
 }
 
 document.onkeyup = function(click) {
