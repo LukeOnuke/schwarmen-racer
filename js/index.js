@@ -121,9 +121,9 @@ let intervalId = window.setInterval(function() {
                 } else {
                     setCarTrasparrent(1);
                     if (isColliding(car, element, 7, 12)) {
-                        dead = true;
-                        playSound("/sound/crash.wav");
                         osc.stop();
+                        playSound("/sound/crash.wav");
+                        isDead(true);
                         return;
                     }
                 }
@@ -133,7 +133,7 @@ let intervalId = window.setInterval(function() {
 
         scrollTextures(velocity * deltaT);
 
-        if (!isInside()) dead = true;
+        if (!isInside()) isDead(true);
 
         addScore((velocity ^ 2) / deltaT);
     }
@@ -270,9 +270,16 @@ function makeDistortionCurve(amount) {
         deg = Math.PI / 180,
         i = 0,
         x;
-    for (; i < n_samples; ++i) {
+    for (let i = 0; i < n_samples; ++i) {
         x = i * 2 / n_samples - 1;
         curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
     }
     return curve;
+}
+
+function isDead(isDead) {
+    dead = isDead;
+    if (dead) {
+        window.location.href = "/dead/";
+    }
 }

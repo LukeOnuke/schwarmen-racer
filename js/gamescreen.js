@@ -1,9 +1,9 @@
 import playSound from "/js/lib.js";
 
 document.onkeydown = function(click) {
-    if (click.key == 's') {
+    if (click.key == 's' || click.key == 'r') {
         history.pushState(undefined, "Main screen", "/");
-        window.location.href = "/game/";
+        window.location.replace("/game/");
     }
 }
 

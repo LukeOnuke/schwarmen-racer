@@ -222,7 +222,7 @@ footer>* {
     background-size: cover;
     image-rendering: pixelated;
 }
-.font-override-ps {
-    font-family: var(--c-brightRed), 'Press Start 2P', cursive !important;
 
+.font-override-ps {
+    font-family: 'Press Start 2P', cursive !important;
 }
