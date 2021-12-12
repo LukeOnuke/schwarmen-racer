@@ -216,3 +216,13 @@ footer>* {
 .highlight {
     color: var(--c-brightRed);
 }
+
+.restart-screen {
+    background: url("/img/restart-screen.png");
+    background-size: cover;
+    image-rendering: pixelated;
+}
+.font-override-ps {
+    font-family: var(--c-brightRed), 'Press Start 2P', cursive !important;
+
+}
