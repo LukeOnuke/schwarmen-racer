@@ -6,6 +6,7 @@ const scoreMeter = document.getElementById("score");
 
 let context = new(window.AudioContext || window.webkitAudioContext)();
 let osc = context.createOscillator(); // instantiate an oscillator
+let osc2 = context.createOscillator();
 
 let velocity = 0.6;
 const maxVel = 2.0;
@@ -29,21 +30,22 @@ gamefield.appendChild(car);
 // Kao main, koristi IIFE.
 (function() {
     var vol = context.createGain();
-    vol.gain.value = 0.1;
+    vol.gain.value = 0.05;
 
-    var distortion = context.createWaveShaper();
-    distortion.curve = makeDistortionCurve(400);
+
 
     osc.type = 'sawtooth'; // this is the default - also square, sawtooth, triangle
     osc.frequency.value = 45; // Hz
     osc.connect(vol); // connect it to the destination
-    vol.connect(distortion);
-    distortion.connect(context.destination);
-    try {
-        osc.start(); // start the oscillator
-    } catch (error) {
-        oscilatorStarted = false;
-    }
+
+    osc2.type = 'square';
+    osc2.frequency.value = 25;
+    osc2.connect(vol);
+
+    vol.connect(context.destination);
+
+    osc.start(); // start the oscillator
+    osc2.start();
 
     //osc.stop(); // stop 2 seconds after the current time
 
@@ -56,14 +58,6 @@ gamefield.appendChild(car);
 
 document.onkeydown = function(click) {
     keyPressed[click.key] = true;
-    if (!oscilatorStarted) {
-        try {
-            osc.start();
-            oscilatorStarted = true;
-        } catch (error) {
-
-        }
-    }
 }
 
 document.onkeyup = function(click) {
@@ -166,7 +160,8 @@ function clampVel(vel) {
 function accelerate(deltaV) {
     velocity = clampVel(velocity + deltaV);
     spedometer.textContent = parseInt(velocity * 100);
-    osc.frequency.value = velocity * 100 / 2;
+    osc.frequency.value = velocity * 100 * 0.4;
+    osc2.frequency.value = velocity * 10;
 }
 
 function isColliding(obj, obj2, overrideX, overrideY) {
