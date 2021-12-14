@@ -157,7 +157,7 @@ footer>* {
 }
 
 .car {
-    background-image: url("/img/carhm.png");
+    background-image: url("/img/car-final.png");
     background-size: contain;
     image-rendering: pixelated;
 }
