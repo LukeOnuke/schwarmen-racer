@@ -1,8 +1,43 @@
+import { setHighScore, getHighScore } from "/js/lib.js";
 import playSound from "/js/lib.js";
+
+/**
+ * =================================================================================================
+ * Schwarmen racer turbo - © MIT 2021 Vuk Milic, Luka Kresoja, Uros Matijas, Milos Lazarevic, Nikola 
+ * =================================================================================================
+ * 
+ * Ovaj deo ukljucuje glavi kod igrice "gamescreen".
+ * 
+ * Radjeno za projektni zadatak u decembru 2021. godine.
+ * 
+ * ===========
+ * MIT License
+ *
+ * Copyright (c) 2021 Luka Kresoja, Uros Matijas, Vuk Milic, Milos Lazarevic, Nikola Milatovic
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 const gamefield = document.getElementById("gamefield");
 const spedometer = document.getElementById("speedometer");
 const scoreMeter = document.getElementById("score");
+const highScoreMeter = document.getElementById("highscore");
 
 let context = new(window.AudioContext || window.webkitAudioContext)();
 let osc = context.createOscillator(); // instantiate an oscillator
@@ -29,14 +64,14 @@ gamefield.appendChild(car);
 
 // Kao main, koristi IIFE.
 (function() {
+    highScoreMeter.textContent = Math.round(getHighScore());
+
     var vol = context.createGain();
     vol.gain.value = 0.05;
 
-
-
-    osc.type = 'sawtooth'; // this is the default - also square, sawtooth, triangle
+    osc.type = 'sawtooth'; // postoji : square, sawtooth, triangle
     osc.frequency.value = 45; // Hz
-    osc.connect(vol); // connect it to the destination
+    osc.connect(vol); // povezi
 
     osc2.type = 'square';
     osc2.frequency.value = 25;
@@ -53,6 +88,9 @@ gamefield.appendChild(car);
     for (let i = 0; i < 7; i++) {
         addEnemyCar();
     }
+
+    setSeason();
+
 })();
 
 
@@ -64,7 +102,7 @@ document.onkeyup = function(click) {
     keyPressed[click.key] = false;
 }
 
-// Game loop (Petlja igre)
+// Petlja igre (Game loop)
 let deltaT = 0;
 let listOfElements;
 
@@ -258,23 +296,18 @@ async function setCarTrasparrent(newVal) {
     car.style.opacity = newVal;
 }
 
-function makeDistortionCurve(amount) {
-    var k = typeof amount === 'number' ? amount : 50,
-        n_samples = 44100,
-        curve = new Float32Array(n_samples),
-        deg = Math.PI / 180,
-        i = 0,
-        x;
-    for (let i = 0; i < n_samples; ++i) {
-        x = i * 2 / n_samples - 1;
-        curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-    }
-    return curve;
-}
-
 function isDead(isDead) {
+    //Prakticno dogadjaj za kada igrac umre
     dead = isDead;
     if (dead) {
+        if (score > getHighScore()) setHighScore(score);
         window.location.href = "/dead/";
     }
+}
+
+function setSeason() {
+    const season = getRand(0, 3);
+    document.body.style.backgroundImage = "url('/img/trava" + season + ".png');";
+    console.log(document.body.style);
+
 }
