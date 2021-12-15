@@ -1,6 +1,6 @@
 /*
  * ==============================================================================================================
- * lib.js - component for Schwarmen Racer Turbo | © MIT Kontributeri https://github.com/LukeOnuke/schwarmen-racer 
+ * lib.js - komponenta za Schwarmen Racer Turbo | © MIT Kontributeri https://github.com/LukeOnuke/schwarmen-racer 
  * ==============================================================================================================
  */
 

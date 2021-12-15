@@ -197,7 +197,7 @@ function clampVel(vel) {
 
 function accelerate(deltaV) {
     velocity = clampVel(velocity + deltaV);
-    spedometer.textContent = parseInt(velocity * 100);
+    updateSpeedometer(velocity * 100);
     osc.frequency.value = velocity * 100 * 0.4;
     osc2.frequency.value = velocity * 10;
 }
@@ -307,7 +307,19 @@ function isDead(isDead) {
 
 function setSeason() {
     const season = getRand(0, 3);
-    document.body.style.backgroundImage = "url('/img/trava" + season + ".png');";
+    document.body.style.backgroundImage = "url('/img/trava" + season + ".png')";
     console.log(document.body.style);
+}
 
+function updateSpeedometer(speed) {
+    spedometer.textContent = Math.round(speed);
+    let style = "var(";
+    if (speed > 170) {
+        style += "--c-brightRed);"
+    } else if (speed > 130) {
+        style += "--c-brightYellow);"
+    } else {
+        style += "--c-brightGreen);"
+    }
+    spedometer.style.color = style;
 }

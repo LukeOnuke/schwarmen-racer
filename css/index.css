@@ -226,3 +226,11 @@ footer>* {
 .font-override-ps {
     font-family: 'Press Start 2P', cursive !important;
 }
+
+.game-bar {
+    align-items: center;
+    justify-content: center;
+    background-color: var(--c-brightBlack);
+    top: auto;
+    bottom: 0;
+}
