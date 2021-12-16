@@ -19,8 +19,11 @@ const highscore = "highscore";
  * @returns Trenutni highscore za ovog klienta, ako je `undefined` onda vraca 0.
  */
 export function getHighScore() {
-    const local = window.localStorage;
-    return local.getItem(highscore) || 0;
+    const hs = window.localStorage.getItem(highscore);
+    if (hs == undefined || hs == Infinity) {
+        return 0;
+    }
+    return hs;
 }
 
 /**
@@ -29,5 +32,5 @@ export function getHighScore() {
  */
 export function setHighScore(v) {
     const local = window.localStorage;
-    local.setItem(highscore, v) || 0;
+    local.setItem(highscore, v);
 }

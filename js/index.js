@@ -292,7 +292,7 @@ async function setCarTrasparrent(newVal) {
     if (newVal == oldVal) {
         return;
     }
-    playSound("/sound/synth.wav");
+    playSound("/sound/synth.mp3");
     car.style.opacity = newVal;
 }
 
@@ -313,13 +313,13 @@ function setSeason() {
 
 function updateSpeedometer(speed) {
     spedometer.textContent = Math.round(speed);
-    let style = "var(";
+    let style;
     if (speed > 170) {
-        style += "--c-brightRed);"
+        style = "#C50F1F"
     } else if (speed > 130) {
-        style += "--c-brightYellow);"
+        style = "#F9F1A5"
     } else {
-        style += "--c-brightGreen);"
+        style = "#13A10E"
     }
     spedometer.style.color = style;
 }
