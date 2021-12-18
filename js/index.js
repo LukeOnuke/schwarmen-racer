@@ -2,9 +2,9 @@ import { setHighScore, getHighScore } from "/js/lib.js";
 import playSound from "/js/lib.js";
 
 /**
- * =================================================================================================
- * Schwarmen racer turbo - © MIT 2021 Vuk Milic, Luka Kresoja, Uros Matijas, Milos Lazarevic, Nikola 
- * =================================================================================================
+ * ============================================================================================
+ * Schwarmen racer turbo - © MIT 2021 Vuk Milic, Luka Kresoja, Uros Matijas, Milos Lazarevic ||
+ * ============================================================================================
  * 
  * Ovaj deo ukljucuje glavi kod igrice "gamescreen".
  * 
@@ -13,7 +13,7 @@ import playSound from "/js/lib.js";
  * ===========
  * MIT License
  *
- * Copyright (c) 2021 Luka Kresoja, Uros Matijas, Vuk Milic, Milos Lazarevic, Nikola Milatovic
+ * Copyright (c) 2021 Luka Kresoja, Uros Matijas, Vuk Milic, Milos Lazarevic
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ const scoreMeter = document.getElementById("score");
 const highScoreMeter = document.getElementById("highscore");
 
 let context = new(window.AudioContext || window.webkitAudioContext)();
-let osc = context.createOscillator(); // instantiate an oscillator
+let osc = context.createOscillator(); // Pokreni oscilator
 let osc2 = context.createOscillator();
 
 let velocity = 0.6;
@@ -66,6 +66,7 @@ gamefield.appendChild(car);
 (function() {
     highScoreMeter.textContent = Math.round(getHighScore());
 
+    // Zvuk , radio matke i milic
     var vol = context.createGain();
     vol.gain.value = 0.05;
 
@@ -79,25 +80,29 @@ gamefield.appendChild(car);
 
     vol.connect(context.destination);
 
-    osc.start(); // start the oscillator
+    // Pokreni oscilatore
+    osc.start();
     osc2.start();
 
-    //osc.stop(); // stop 2 seconds after the current time
-
+    //Inicializacija, svi zajedno
     setPos(car, gamefield.clientWidth * 0.5, gamefield.clientHeight * 0.3);
     for (let i = 0; i < 7; i++) {
         addEnemyCar();
     }
 
-    setSeason();
+    setSeason(); //Postavi sezonu.
 
 })();
 
 
+// Prezentuja Kresoja
+// Na pritiak tastera dodati na niz.
 document.onkeydown = function(click) {
     keyPressed[click.key] = true;
 }
 
+// Prezentuja Kresoja
+// Kada se taster pusti skini sa niza.
 document.onkeyup = function(click) {
     keyPressed[click.key] = false;
 }
@@ -163,6 +168,7 @@ let intervalId = window.setInterval(function() {
             }
         }
 
+        //Milic
         scrollTextures(velocity * deltaT);
 
         if (!isInside()) isDead(true);
@@ -172,14 +178,27 @@ let intervalId = window.setInterval(function() {
     deltaT = Date.now();
 }, 32);
 
+/**
+ * @author Luka Kresoja, Vuk Milic
+ */
 function getX(object) {
     return parseInt(object.style.left);
 }
 
+/**
+ * @author Luka Kresoja, Vuk Milic
+ */
 function getY(object) {
     return gamefield.clientHeight - parseInt(object.style.top) - parseInt(object.clientHeight);
 }
 
+/**
+ * Promeni koordinate objekta
+ * @param {*} object Objekat koga treba da postavimo
+ * @param {*} x Buduca X koordinata
+ * @param {*} y Buduca Y koordinata
+ * @author Luka Kresoja
+ */
 function setPos(object, x, y) {
     object.style.position = "relative";
     y += object.clientHeight;
@@ -187,14 +206,25 @@ function setPos(object, x, y) {
     object.style.left = x + "px";
 }
 
+/**
+ * @author Milos Lazarevic
+ */
 function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
 }
 
+/**
+ * @author Milos Lazarevic
+ */
 function clampVel(vel) {
     return clamp(vel, minVel, maxVel);
 }
 
+/**
+ * Ubrzaj auto
+ * @param {*} deltaV DeltaV
+ * @author Luka Kresoja
+ */
 function accelerate(deltaV) {
     velocity = clampVel(velocity + deltaV);
     updateSpeedometer(velocity * 100);
@@ -202,6 +232,14 @@ function accelerate(deltaV) {
     osc2.frequency.value = velocity * 10;
 }
 
+/**
+ * @param {*} obj Prvi objekat.
+ * @param {*} obj2 Drugi objekat.
+ * @param {*} overrideX Override za x smer.
+ * @param {*} overrideY Override za y smer.
+ * @returns Da li se sudara.
+ * @author Milos Lazarevic, Luka Kresoja 
+ */
 function isColliding(obj, obj2, overrideX, overrideY) {
     if (overrideY == undefined) {
         overrideY = 0;
@@ -218,10 +256,6 @@ function isColliding(obj, obj2, overrideX, overrideY) {
         height: rect1.height - (overrideY * 2),
         top: rect1.top + overrideY
     };
-    /*rect1.left += overrideX;
-    rect1.width -= overrideX;
-    rect1.height -= overrideY;
-    rect1.top += overrideY;*/
 
     const rect2 = obj2.getBoundingClientRect();
     //return rect1.x > rect2.x && rect1.x < rect2.x + rect2.width && rect1.y > rect2.y && rect1.y < rect2.y + rect2.height;
@@ -229,6 +263,9 @@ function isColliding(obj, obj2, overrideX, overrideY) {
         (rect1.left < rect2.left && rect2.left < rect1.left + rect1.width || rect2.left < rect1.left && rect1.left < rect2.left + rect2.width); //width
 }
 
+/**
+ * @author Uros Matijas , Vuk Milic
+ */
 function addEnemyCar() {
     if (zIndex > 200) zIndex = 100;
     zIndex++;
@@ -239,6 +276,11 @@ function addEnemyCar() {
     enemyCar.style.zIndex = zIndex;
 }
 
+/**
+ * GetRand
+ * 
+ * @author Milos Lazarevic
+ */
 function getRand(min, max) {
     let arr = new Uint32Array(1);
     crypto.getRandomValues(arr);
@@ -246,19 +288,40 @@ function getRand(min, max) {
     return Math.abs(arr[0]) % (max + 1) + min;
 }
 
+/**
+ * Remove Object
+ * 
+ * @author Milos Lazarevic
+ */
 async function removeObj(object) {
     object.remove();
 }
 
+/**
+ * GetRand
+ * 
+ * @author Uros Matijas
+ */
 function getActualY(obj) {
     return obj.getBoundingClientRect().y;
 }
 
+
+/**
+ * Dodaj skore
+ * @param {*} sc deltaScore 
+ * @author Vuk Milic
+ */
 function addScore(sc) {
     score += sc;
     scoreMeter.textContent = parseInt(score);
 }
 
+/**
+ * Proverava
+ * @author Milos Lazarevic, Luka Kresoja 
+ * @returns Da li je auto unutar staze
+ */
 function isInside() {
     const rect1 = car.getBoundingClientRect();
     const rect2 = gamefield.getBoundingClientRect();
@@ -266,13 +329,22 @@ function isInside() {
     return (rect1.left < rect2.left && rect2.left < rect1.left + rect1.width || rect2.left < rect1.left && rect1.left < rect2.left + rect2.width); //width
 }
 
+/**
+ * @param {*} element Element koji treba proveriti dali je auto.
+ * @returns Da li je auto.
+ * @author Luka Kresoja
+ */
 function isCar(element) {
     return element.classList.contains("enemy-car") || element.classList.contains("car");
 }
 
 let scroll = 0.0;
 
-/**Scroll-uje objekte sa klasom `scrollable` */
+/**
+ * Scroll-uje objekte sa klasom `scrollable`
+ * @param {*} delta Razlika u prodjenom putu.
+ * @author Luka Kresoja.
+ */
 function scrollTextures(delta) {
     if (scroll > gamefield.clientHeight * 10) {
         scroll = 0;
@@ -287,6 +359,12 @@ async function setRandomType(car) {
     car.style.backgroundImage = "url(/img/car" + getRand(0, 5) + ".png)";
 }
 
+/**
+ * Set car trancparrency.
+ * @param {*} newVal Car transparrency. 
+ * @returns Void
+ * @author Luka Kresoja
+ */
 async function setCarTrasparrent(newVal) {
     let oldVal = car.style.opacity;
     if (newVal == oldVal) {
@@ -296,6 +374,11 @@ async function setCarTrasparrent(newVal) {
     car.style.opacity = newVal;
 }
 
+/**
+ * 
+ * @param {*} isDead Da li je mrtav
+ * @author Milos Lazarevic
+ */
 function isDead(isDead) {
     //Prakticno dogadjaj za kada igrac umre
     dead = isDead;
@@ -305,12 +388,20 @@ function isDead(isDead) {
     }
 }
 
+/**
+ * @author Vuk Milic
+ */
 function setSeason() {
     const season = getRand(0, 3);
     document.body.style.backgroundImage = "url('/img/trava" + season + ".png')";
     console.log(document.body.style);
 }
 
+/**
+ * Refresuj brzinomjer
+ * @param {*} speed Brzina
+ * @author Vuk Milic
+ */
 function updateSpeedometer(speed) {
     spedometer.textContent = Math.round(speed);
     let style;
