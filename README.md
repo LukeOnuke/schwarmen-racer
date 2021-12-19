@@ -1,4 +1,2 @@
 # schwarmen racer turbo
-Projekat za skolu 2021 decembar. Pakman sussy
-
-
+Projekat za skolu 2021 decembar.

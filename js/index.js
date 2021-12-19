@@ -2,9 +2,9 @@ import { setHighScore, getHighScore } from "/js/lib.js";
 import playSound from "/js/lib.js";
 
 /**
- * ============================================================================================
- * Schwarmen racer turbo - © MIT 2021 Vuk Milic, Luka Kresoja, Uros Matijas, Milos Lazarevic ||
- * ============================================================================================
+ * ==============================================================================================================
+ * Schwarmen racer turbo - © MIT 2021 Vuk Milic, Luka Kresoja, Uros Matijas, Milos Lazarevic, Nikola Milatovic ||
+ * ==============================================================================================================
  * 
  * Ovaj deo ukljucuje glavi kod igrice "gamescreen".
  * 
@@ -233,6 +233,7 @@ function accelerate(deltaV) {
 }
 
 /**
+ * Proverava da li se dva objekta sudaraju.
  * @param {*} obj Prvi objekat.
  * @param {*} obj2 Drugi objekat.
  * @param {*} overrideX Override za x smer.
@@ -258,7 +259,7 @@ function isColliding(obj, obj2, overrideX, overrideY) {
     };
 
     const rect2 = obj2.getBoundingClientRect();
-    //return rect1.x > rect2.x && rect1.x < rect2.x + rect2.width && rect1.y > rect2.y && rect1.y < rect2.y + rect2.height;
+
     return (rect1.top > rect2.top && rect2.top > rect1.top - rect1.height || rect2.top > rect1.top && rect1.top > rect2.top - rect2.height) && //height
         (rect1.left < rect2.left && rect2.left < rect1.left + rect1.width || rect2.left < rect1.left && rect1.left < rect2.left + rect2.width); //width
 }
@@ -393,7 +394,7 @@ function isDead(isDead) {
  */
 function setSeason() {
     const season = getRand(0, 3);
-    document.body.style.backgroundImage = "url('/img/trava" + season + ".png')";
+    document.body.style.backgroundImage = `url('/img/trava${season}.png')`;
     console.log(document.body.style);
 }
 
@@ -403,7 +404,7 @@ function setSeason() {
  * @author Vuk Milic
  */
 function updateSpeedometer(speed) {
-    spedometer.textContent = Math.round(speed);
+    spedometer.textContent = Math.round(speed + 75);
     let style;
     if (speed > 170) {
         style = "#C50F1F"

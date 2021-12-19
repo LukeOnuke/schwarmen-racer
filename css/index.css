@@ -101,6 +101,10 @@ footer {
     justify-content: center;
     text-align: center;
     background-color: var(--c-blue);
+    top: auto;
+    bottom: 0;
+    position: fixed;
+    width: 100vw;
 }
 
 footer>* {
@@ -236,5 +240,5 @@ footer>* {
 }
 
 .mt-1 {
-    margin-top: 1em;
+    margin-top: 2em;
 }
