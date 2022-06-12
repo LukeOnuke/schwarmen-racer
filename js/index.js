@@ -1,5 +1,6 @@
 import { setHighScore, getHighScore } from "/js/lib.js";
 import playSound from "/js/lib.js";
+import SlapbackDelayNode from "/js/audio.js";
 
 /**
  * ==============================================================================================================
@@ -38,6 +39,7 @@ const gamefield = document.getElementById("gamefield");
 const spedometer = document.getElementById("speedometer");
 const scoreMeter = document.getElementById("score");
 const highScoreMeter = document.getElementById("highscore");
+const revMeter = document.getElementById("rpm");
 
 let context = new(window.AudioContext || window.webkitAudioContext)();
 let osc = context.createOscillator(); // Pokreni oscilator
@@ -49,10 +51,15 @@ const minVel = 0.95;
 const horisontalV = 0.40;
 const keyPressed = [];
 
+let rev = 3000;
+let maxRev = 6000;
+let minRev = 2000;
+
 let dead = false;
 let score = 0;
 const timeStarted = Date.now();
 let oscilatorStarted = true;
+let slapbackDelayNode;
 
 let zIndex = 100;
 
@@ -70,15 +77,18 @@ gamefield.appendChild(car);
     var vol = context.createGain();
     vol.gain.value = 0.05;
 
+    slapbackDelayNode = new SlapbackDelayNode(context, vol, 0.12, 0.25, 0.25);
+
     osc.type = 'sawtooth'; // postoji : square, sawtooth, triangle
     osc.frequency.value = 45; // Hz
     osc.connect(vol); // povezi
 
     osc2.type = 'square';
-    osc2.frequency.value = 25;
+    osc2.frequency.value = 45;
     osc2.connect(vol);
 
-    vol.connect(context.destination);
+    //vol.connect(context.destination);
+    slapbackDelayNode.connect(context.destination);
 
     // Pokreni oscilatore
     osc.start();
@@ -228,8 +238,7 @@ function clampVel(vel) {
 function accelerate(deltaV) {
     velocity = clampVel(velocity + deltaV);
     updateSpeedometer(velocity * 100);
-    osc.frequency.value = velocity * 100 * 0.4;
-    osc2.frequency.value = velocity * 10;
+    changeRev(velocity * 100 * 42);
 }
 
 /**
@@ -414,4 +423,28 @@ function updateSpeedometer(speed) {
         style = "#13A10E"
     }
     spedometer.style.color = style;
+}
+
+function changeRev(delta) {
+    console.log(rev, delta);
+    rev = delta;
+    if (rev > maxRev) {
+        rev = minRev + (rev - maxRev);
+        gearChange();
+    }
+    if (rev < minRev) {
+        rev = maxRev - (minRev - rev);
+        gearChange();
+    }
+
+    //updejti
+    osc.frequency.value = rev / 60;
+    osc2.frequency.value = rev / 60;
+    slapbackDelayNode.setDelay(rev / 8 / 60 / 1000);
+
+    revMeter.textContent = rev;
+}
+
+function gearChange() {
+    playSound("/sound/exaustBang.wav");
 }
