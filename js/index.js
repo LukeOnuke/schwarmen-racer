@@ -124,7 +124,7 @@ let deltaT = 0;
 let listOfElements;
 
 let intervalId = window.setInterval(function() {
-    if(window.visualViewport.scale != 1) {
+    if(window.devicePixelRatio != 1) {
         isDead(true);
     }
 
