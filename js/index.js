@@ -47,13 +47,14 @@ let osc2 = context.createOscillator();
 
 let velocity = 0.6;
 const maxVel = 2.0;
-const minVel = 0.95;
+const minVel = 0.96;
 const horisontalV = 0.40;
 const keyPressed = [];
 
 let rev = 3000;
 let maxRev = 6000;
 let minRev = 2000;
+let gear = 1;
 
 let dead = false;
 let score = 0;
@@ -75,9 +76,9 @@ gamefield.appendChild(car);
 
     // Zvuk , radio matke i milic
     var vol = context.createGain();
-    vol.gain.value = 0.05;
+    vol.gain.value = 0.5;
 
-    slapbackDelayNode = new SlapbackDelayNode(context, vol, 0.12, 0.25, 0.25);
+    slapbackDelayNode = new SlapbackDelayNode(context, vol, 0.12, 0.30, 0.30);
 
     osc.type = 'sawtooth'; // postoji : square, sawtooth, triangle
     osc.frequency.value = 45; // Hz
@@ -426,15 +427,29 @@ function updateSpeedometer(speed) {
 }
 
 function changeRev(delta) {
-    console.log(rev, delta);
     rev = delta;
+
+    let oldGear = gear;
+    gear = returnGear(rev);
+
+    if (gear > oldGear) {
+
+        //rev = minRev + (rev - maxRev);
+
+    }
+    if (gear < oldGear) {
+
+        gearDownChange();
+        //rev = maxRev - (minRev - rev);
+    }
+
+    rev -= (gear - 1) * maxRev;
+
+    if (rev < minRev) {
+        rev = maxRev - (minRev - rev)
+    }
     if (rev > maxRev) {
         rev = minRev + (rev - maxRev);
-        gearChange();
-    }
-    if (rev < minRev) {
-        rev = maxRev - (minRev - rev);
-        gearChange();
     }
 
     //updejti
@@ -442,9 +457,23 @@ function changeRev(delta) {
     osc2.frequency.value = rev / 60;
     slapbackDelayNode.setDelay(rev / 8 / 60 / 1000);
 
-    revMeter.textContent = rev;
+    revMeter.textContent = Math.round(rev);
 }
 
-function gearChange() {
-    playSound("/sound/exaustBang.wav");
+function returnGear(revs) {
+    let gear = 1;
+    while (revs > maxRev) {
+        revs -= maxRev;
+        gear++;
+    }
+    return gear;
+}
+
+async function gearDownChange() {
+    let max = getRand(2, 5);
+    for (let i = 0; i < max; i++) {
+        setTimeout(() => {
+            playSound("/sound/exaustBang.wav");
+        }, 125 * i);
+    }
 }
