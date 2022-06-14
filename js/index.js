@@ -124,7 +124,9 @@ let deltaT = 0;
 let listOfElements;
 
 let intervalId = window.setInterval(function() {
-    console.log(window.visualViewport.scale + " bingchilling");
+    if(window.visualViewport.scale != 1) {
+        isDead(true);
+    }
 
     if (deltaT == 0) { deltaT = Date.now() - 1 }
     deltaT -= Date.now();
