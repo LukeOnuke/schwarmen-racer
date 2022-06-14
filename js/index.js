@@ -67,6 +67,7 @@ let zIndex = 100;
 const car = document.createElement("div");
 car.classList.add("object", "car");
 car.style.opacity = 0.5;
+setPlayerRandomType(car);
 gamefield.appendChild(car);
 
 
@@ -368,6 +369,10 @@ function scrollTextures(delta) {
 
 async function setRandomType(car) {
     car.style.backgroundImage = "url(/img/car" + getRand(0, 5) + ".png)";
+}
+
+async function setPlayerRandomType(car) {
+    car.style.backgroundImage = "url(/img/car-final" + getRand(0, 1) + ".png)";
 }
 
 /**
