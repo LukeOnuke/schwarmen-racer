@@ -1,6 +1,8 @@
 import { setHighScore, getHighScore } from "/js/lib.js";
 import playSound from "/js/lib.js";
 import SlapbackDelayNode from "/js/audio.js";
+import { sliderInit, loadSlider } from "/js/save.js";
+
 
 /**
  * ==============================================================================================================
@@ -41,6 +43,8 @@ const scoreMeter = document.getElementById("score");
 const highScoreMeter = document.getElementById("highscore");
 const revMeter = document.getElementById("rpm");
 
+const engineVoliume = document.getElementById("engineVoliume");
+
 let context = new(window.AudioContext || window.webkitAudioContext)();
 let osc = context.createOscillator(); // Pokreni oscilator
 let osc2 = context.createOscillator();
@@ -73,11 +77,17 @@ gamefield.appendChild(car);
 
 // Kao main, koristi IIFE.
 (function() {
+
+    sliderInit(engineVoliume);
+    engineVoliume.value = loadSlider(engineVoliume);
+    console.log(loadSlider(engineVoliume));
+
+
     highScoreMeter.textContent = Math.round(getHighScore());
 
     // Zvuk , radio matke i milic
     var vol = context.createGain();
-    vol.gain.value = 0.5;
+    vol.gain.value = loadSlider(engineVoliume) / 100;
 
     slapbackDelayNode = new SlapbackDelayNode(context, vol, 0.12, 0.30, 0.30);
 
@@ -89,8 +99,8 @@ gamefield.appendChild(car);
     osc2.frequency.value = 45;
     osc2.connect(vol);
 
-    //vol.connect(context.destination);
-    slapbackDelayNode.connect(context.destination);
+    vol.connect(context.destination);
+    slapbackDelayNode.connect(vol);
 
     // Pokreni oscilatore
     osc.start();
@@ -104,6 +114,9 @@ gamefield.appendChild(car);
 
     setSeason(); //Postavi sezonu.
 
+    engineVoliume.oninput = function() {
+        vol.gain.value = this.value / 100;
+    }
 })();
 
 
@@ -124,7 +137,7 @@ let deltaT = 0;
 let listOfElements;
 
 let intervalId = window.setInterval(function() {
-    if(window.devicePixelRatio != 1) {
+    if (window.devicePixelRatio != 1) {
         isDead(true);
     }
 
@@ -482,7 +495,7 @@ async function gearDownChange() {
     let max = getRand(2, 5);
     for (let i = 0; i < max; i++) {
         setTimeout(() => {
-            playSound("/sound/exaustBang.wav");
+            playSound("/sound/exaustBang.wav", (loadSlider(engineVoliume) / 100) * 2);
         }, 125 * i);
     }
 }

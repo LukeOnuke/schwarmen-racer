@@ -9,9 +9,11 @@
  * @param {String} path 
  * @author Uros Matijas
  */
-export default function playSound(path) {
+export default function playSound(path, vol = 1) {
     console.log(`Playing sound ${path}`);
-    new Audio(path).play();
+    const au = new Audio(path);
+    au.volume = vol;
+    au.play();
 }
 
 const highscore = "highscore";
