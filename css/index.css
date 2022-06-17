@@ -237,11 +237,15 @@ footer>* {
 }
 
 .game-bar {
+    z-index: 1000;
+    display: flex;
+    color: transparent;
     align-items: center;
     justify-content: center;
-    background-color: var(--c-brightBlack);
     top: auto;
     bottom: 0;
+    position: fixed;
+    width: 100vw;
 }
 
 .mt-1 {
@@ -263,7 +267,7 @@ footer>* {
 }
 
 .screen-set {
-    width: 20rem;
+    width: 25rem;
 }
 
 .screen-speed {
@@ -272,4 +276,8 @@ footer>* {
 
 .text-right {
     text-align: right;
+}
+
+.fl-spacebetween {
+    justify-content: space-between;
 }

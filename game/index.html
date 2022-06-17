@@ -6,25 +6,24 @@
 </head>
 
 <body class="screen-size trava scrollable font-override-ps">
-    <nav class="game-bar">
+    <div class="game-bar">
         <div class="">
             <div class="screen screen-set">
                 <span><p class="item screen-speed" id="speedometer"></p></span>
-                <div class="flexbox fl-row ">
+                <div class="flexbox fl-spacebetween">
                     <div>
                         <p class="item" id="rpm"></p>
                     </div>
                     <div class="text-right">
                         <p class="item" id="score"></p>
+                        <p class="item" id="highscore"></p>
                     </div>
+
                 </div>
             </div>
         </div>
 
-
-        <p class="item" id="highscore"></p>
-
-    </nav>
+    </div>
     <div class="settings-bar">
         <input type="range" min="0" max="50" value="25" class="slider" id="engineVoliume">
     </div>
