@@ -43,6 +43,7 @@ const scoreMeter = document.getElementById("score");
 const highScoreMeter = document.getElementById("highscore");
 const revMeter = document.getElementById("rpm");
 const revGauge = document.getElementById("revgauge");
+const gearGauge = document.getElementById("gear");
 
 const engineVoliume = document.getElementById("engineVoliume");
 
@@ -483,6 +484,7 @@ function changeRev(delta) {
     revMeter.textContent = Math.round(rev);
 
     updateRevmeter(rev);
+    updateGearGauge(gear);
 }
 
 function returnGear(revs) {
@@ -504,13 +506,21 @@ async function gearDownChange() {
 }
 
 function updateRevmeter(rev) {
-    console.log(rev / (maxRev / revGauge.children.length));
     let i;
     for (i = 0; i < revGauge.children.length; i++) {
+        revGauge.children[i].classList.remove("active");
+        revGauge.children[i].classList.remove("blink-quick");
+    }
+    for (i = 0; i <= (rev) / ((maxRev) / revGauge.children.length); i++) {
+        revGauge.children[i].classList.add("active");
+    }
+    if (rev > maxRev - 500) {
+        for (i = 0; i < revGauge.children.length; i++) {
+            revGauge.children[i].classList.add("blink-quick");
+        }
+    }
+}
 
-        revGauge.children[i].style.background = "rgba(0, 0, 0, 0)";
-    }
-    for (i = 0; i <= (rev - minRev) / (maxRev / revGauge.children.length); i++) {
-        revGauge.children[i].style.background = "green";
-    }
+function updateGearGauge(g) {
+    gearGauge.textContent = g;
 }

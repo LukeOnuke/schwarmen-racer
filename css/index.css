@@ -192,6 +192,10 @@ footer>* {
     animation: blinker 1s infinite;
 }
 
+.blink-quick {
+    animation: blinker 0.1s infinite;
+}
+
 @keyframes blinker {
     from {
         opacity: 1.0;
@@ -272,7 +276,7 @@ footer>* {
 }
 
 .screen-speed {
-    font-size: 4rem;
+    font-size: 3rem;
 }
 
 .text-right {
@@ -294,4 +298,29 @@ footer>* {
 .rev-led {
     padding: 0.5rem;
     border-radius: 0.5rem;
+}
+
+.rev-led.active {
+    background-color: var(--c-brightGreen);
+}
+
+.rev-led.active.rev-led-blue {
+    background-color: var(--c-cyan);
+}
+
+.rev-led.active.rev-led-red {
+    background-color: var(--c-brightRed);
+}
+
+.rev-led.active.rev-led-yellow {
+    background-color: var(--c-brightYellow) !important;
+}
+
+.road-border {
+    border-color: #FFCC00;
+    border-style: solid;
+    border-left-width: 0.5rem;
+    border-right-width: 0.5rem;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
 }

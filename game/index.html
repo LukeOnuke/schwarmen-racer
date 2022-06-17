@@ -8,8 +8,27 @@
 <body class="screen-size trava scrollable font-override-ps">
     <div class="game-bar">
         <div class="">
+            <div id="revgauge" class="flexbox fl-row">
+                <span class="rev-led rev-led-blue"></span>
+                <span class="rev-led rev-led-blue"></span>
+                <span class="rev-led rev-led-blue"></span>
+                <span class="rev-led rev-led-blue"></span>
+                <span class="rev-led rev-led-blue"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led"></span>
+                <span class="rev-led rev-led-yellow"></span>
+                <span class="rev-led rev-led-yellow"></span>
+                <span class="rev-led rev-led-yellow"></span>
+                <span class="rev-led rev-led-red"></span>
+            </div>
             <div class="screen screen-set">
-                <span><p class="item screen-speed" id="speedometer"></p></span>
+                <span><span class="item screen-speed" id="speedometer"></span> <span id="gear"></span></span>
                 <div class="flexbox fl-spacebetween">
                     <div class="m-10">
                         <p class="item m-0" id="rpm"></p>
@@ -20,23 +39,6 @@
                     </div>
                 </div>
             </div>
-            <div id="revgauge" class="flexbox fl-row">
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-                <span class="rev-led"></span>
-            </div>
         </div>
 
     </div>
@@ -44,7 +46,7 @@
         <input type="range" min="0" max="50" value="25" class="slider" id="engineVoliume">
     </div>
     <div class="flexbox fl-center">
-        <div id="gamefield" class="full-height scrollable">
+        <div id="gamefield" class="full-height scrollable road-border">
 
         </div>
     </div>
