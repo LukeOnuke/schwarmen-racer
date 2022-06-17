@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300&family=Oswald&family=Press+Start+2P&display=swap');
+@font-face {
+    font-family: dseg7;
+    src: url("/font/dseg7.woff");
+}
+
 :root {
     --c-black: #0C0C0C;
     --c-blue: #0037da;
@@ -241,4 +246,30 @@ footer>* {
 
 .mt-1 {
     margin-top: 2em;
+}
+
+.settings-bar {
+    z-index: 10;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    position: fixed;
+}
+
+.screen {
+    font-family: dseg7;
+    background-color: #11d443;
+    color: #00360e;
+}
+
+.screen-set {
+    width: 20rem;
+}
+
+.screen-speed {
+    font-size: 4rem;
+}
+
+.text-right {
+    text-align: right;
 }
