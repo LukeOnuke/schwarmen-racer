@@ -42,6 +42,7 @@ const spedometer = document.getElementById("speedometer");
 const scoreMeter = document.getElementById("score");
 const highScoreMeter = document.getElementById("highscore");
 const revMeter = document.getElementById("rpm");
+const revGauge = document.getElementById("revgauge");
 
 const engineVoliume = document.getElementById("engineVoliume");
 
@@ -51,7 +52,7 @@ let osc2 = context.createOscillator();
 
 let velocity = 0.6;
 const maxVel = 2.0;
-const minVel = 0.96;
+const minVel = 0.65;
 const horisontalV = 0.40;
 const keyPressed = [];
 
@@ -443,7 +444,7 @@ function updateSpeedometer(speed) {
     } else if (speed > 130) {
         style = "#F9F1A5"
     } else {
-        style = "#13A10E"
+        style = "#00360e"
     }
     spedometer.style.color = style;
 }
@@ -480,6 +481,8 @@ function changeRev(delta) {
     slapbackDelayNode.setDelay(rev / 8 / 60 / 1000);
 
     revMeter.textContent = Math.round(rev);
+
+    updateRevmeter(rev);
 }
 
 function returnGear(revs) {
@@ -497,5 +500,17 @@ async function gearDownChange() {
         setTimeout(() => {
             playSound("/sound/exaustBang.wav", (loadSlider(engineVoliume) / 100) * 2);
         }, 125 * i);
+    }
+}
+
+function updateRevmeter(rev) {
+    console.log(rev / (maxRev / revGauge.children.length));
+    let i;
+    for (i = 0; i < revGauge.children.length; i++) {
+
+        revGauge.children[i].style.background = "rgba(0, 0, 0, 0)";
+    }
+    for (i = 0; i <= (rev - minRev) / (maxRev / revGauge.children.length); i++) {
+        revGauge.children[i].style.background = "green";
     }
 }
