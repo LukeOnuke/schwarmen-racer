@@ -3,6 +3,7 @@ import playSound from "/js/lib.js";
 import SlapbackDelayNode from "/js/audio.js";
 import { sliderInit, loadSlider } from "/js/save.js";
 import { playLoopingSound } from "/js/lib.js";
+import { isCheating } from "/js/lib.js";
 
 
 /**
@@ -145,7 +146,7 @@ let listOfElements;
 
 let intervalId = window.setInterval(function() {
     if (window.devicePixelRatio != 1) {
-        isDead(true);
+        isCheating();
     }
 
     if (deltaT == 0) { deltaT = Date.now() - 1 }
@@ -154,16 +155,17 @@ let intervalId = window.setInterval(function() {
     if (dead) {
 
     } else {
-        if (keyPressed["w"]) {
+        console.log(keyPressed);
+        if (keyPressed["w"] || keyPressed["arrowup"]) {
             accelerate(12e-3);
         }
-        if (keyPressed["s"]) {
+        if (keyPressed["s"] || keyPressed["arrowdown"]) {
             accelerate(-(6e-3));
         }
-        if (keyPressed["a"]) {
+        if (keyPressed["a"] || keyPressed["arrowleft"]) {
             setPos(car, getX(car) - horisontalV * deltaT, getY(car));
         }
-        if (keyPressed["d"]) {
+        if (keyPressed["d"] || keyPressed["arrowright"]) {
             setPos(car, getX(car) + horisontalV * deltaT, getY(car));
         }
 

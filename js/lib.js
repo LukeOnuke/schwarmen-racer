@@ -49,3 +49,7 @@ export function setHighScore(v) {
     const local = window.localStorage;
     local.setItem(highscore, v);
 }
+
+export function isCheating() {
+    window.location.href = "/cheating/";
+}

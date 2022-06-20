@@ -6,6 +6,10 @@ document.onkeydown = function(click) {
         history.pushState(undefined, "Main screen", "/");
         window.location.replace("/game/");
     }
+    if (click.key.toLowerCase() == 'm') {
+        history.pushState(undefined, "Main screen", "/");
+        window.location.replace("/");
+    }
 }
 
 const v = 0;
