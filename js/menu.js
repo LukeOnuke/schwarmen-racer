@@ -1,3 +1,4 @@
+import { playLoopingSound } from "/js/lib.js";
 import playSound from "/js/lib.js";
 
 document.onkeydown = function(click) {
@@ -9,6 +10,7 @@ document.onkeydown = function(click) {
 
 const v = 0;
 (function() {
+    playLoopingSound("/sound/mainMenuTheme.wav");
     for (let element of document.getElementsByTagName("a")) {
 
         element.addEventListener("mouseover", function(e) {

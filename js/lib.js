@@ -16,6 +16,14 @@ export default function playSound(path, vol = 1) {
     au.play();
 }
 
+export function playLoopingSound(path, vol = 1) {
+    console.log(`Playing looping sound from ${path}.`);
+    const au = new Audio(path);
+    au.volume = vol;
+    au.loop = true;
+    au.play();
+}
+
 const highscore = "highscore";
 /**
  * Vrati highscore.

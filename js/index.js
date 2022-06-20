@@ -2,6 +2,7 @@ import { setHighScore, getHighScore } from "/js/lib.js";
 import playSound from "/js/lib.js";
 import SlapbackDelayNode from "/js/audio.js";
 import { sliderInit, loadSlider } from "/js/save.js";
+import { playLoopingSound } from "/js/lib.js";
 
 
 /**
@@ -79,10 +80,11 @@ gamefield.appendChild(car);
 
 // Kao main, koristi IIFE.
 (function() {
-
     sliderInit(engineVoliume);
     engineVoliume.value = loadSlider(engineVoliume);
     console.log(loadSlider(engineVoliume));
+
+    playLoopingSound("/sound/gameTheme.wav");
 
 
     highScoreMeter.textContent = Math.round(getHighScore());
