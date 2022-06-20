@@ -391,7 +391,7 @@ async function setRandomType(car) {
 }
 
 async function setPlayerRandomType(car) {
-    car.style.backgroundImage = "url(/img/car-final" + getRand(0, 1) + ".png)";
+    car.style.backgroundImage = "url(/img/car-final" + getRand(0, 6) + ".png)";
 }
 
 /**
