@@ -10,7 +10,11 @@ export function saveSlider(slider) {
 }
 
 export function loadSlider(slider, defaultValiue = 25) {
-    let val = window.localStorage.getItem("element-slider" + slider.id);
+    return loadSliderById(slider.id, defaultValiue);
+}
+
+export function loadSliderById(id, defaultValiue = 25) {
+    let val = window.localStorage.getItem("element-slider" + id);
     val == "undefined" ? val = defaultValiue : val = val; //javskript momenat, proveri dali je undefined ako jeste onda postavi vrednost defaultValiue
     return val;
 }

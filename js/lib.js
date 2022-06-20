@@ -4,6 +4,8 @@
  * ==============================================================================================================|
  */
 
+import { loadSliderById } from "/js/save.js";
+
 /**
  * Pusti zvuk koristeci `Audio` interface.
  * @param {String} path 
@@ -16,10 +18,10 @@ export default function playSound(path, vol = 1) {
     au.play();
 }
 
-export function playLoopingSound(path, vol = 1) {
+export function playLoopingSound(path, vol = 25) {
     console.log(`Playing looping sound from ${path}.`);
     const au = new Audio(path);
-    au.volume = vol;
+    au.volume = loadSliderById("musicVoliume") / 100;
     au.loop = true;
     au.play();
 }

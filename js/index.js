@@ -47,6 +47,7 @@ const revGauge = document.getElementById("revgauge");
 const gearGauge = document.getElementById("gear");
 
 const engineVoliume = document.getElementById("engineVoliume");
+const musicVoliume = document.getElementById("musicVoliume");
 
 let context = new(window.AudioContext || window.webkitAudioContext)();
 let osc = context.createOscillator(); // Pokreni oscilator
@@ -82,9 +83,11 @@ gamefield.appendChild(car);
 (function() {
     sliderInit(engineVoliume);
     engineVoliume.value = loadSlider(engineVoliume);
-    console.log(loadSlider(engineVoliume));
 
-    playLoopingSound("/sound/gameTheme.wav");
+    sliderInit(musicVoliume);
+    musicVoliume.value = loadSlider(musicVoliume);
+
+    playLoopingSound("/sound/gameTheme.wav", musicVoliume.value);
 
 
     highScoreMeter.textContent = Math.round(getHighScore());
@@ -127,13 +130,13 @@ gamefield.appendChild(car);
 // Prezentuja Kresoja
 // Na pritiak tastera dodati na niz.
 document.onkeydown = function(click) {
-    keyPressed[click.key] = true;
+    keyPressed[click.key.toLowerCase()] = true;
 }
 
 // Prezentuja Kresoja
 // Kada se taster pusti skini sa niza.
 document.onkeyup = function(click) {
-    keyPressed[click.key] = false;
+    keyPressed[click.key.toLowerCase()] = false;
 }
 
 // Petlja igre (Game loop)
