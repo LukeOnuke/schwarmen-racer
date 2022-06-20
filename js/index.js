@@ -155,7 +155,6 @@ let intervalId = window.setInterval(function() {
     if (dead) {
 
     } else {
-        console.log(keyPressed);
         if (keyPressed["w"] || keyPressed["arrowup"]) {
             accelerate(12e-3);
         }
